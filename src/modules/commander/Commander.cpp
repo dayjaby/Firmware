@@ -78,6 +78,7 @@
 #include <math.h>
 #include <float.h>
 #include <cstring>
+#include <matrix/math.hpp>
 
 #include <uORB/topics/mavlink_log.h>
 
@@ -804,6 +805,7 @@ Commander::handle_command(vehicle_status_s *status_local, const vehicle_command_
 				}
 
 			} else {
+				const float yaw = matrix::wrap_2pi(math::radians(cmd.param4));
 				const double lat = cmd.param5;
 				const double lon = cmd.param6;
 				const float alt = cmd.param7;
@@ -819,6 +821,10 @@ Commander::handle_command(vehicle_status_s *status_local, const vehicle_command_
 						home.lat = lat;
 						home.lon = lon;
 						home.alt = alt;
+
+						if (PX4_ISFINITE(yaw)) {
+							home.yaw = yaw;
+						}
 
 						home.manual_home = true;
 						home.valid_alt = true;
