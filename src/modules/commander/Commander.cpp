@@ -821,10 +821,7 @@ Commander::handle_command(vehicle_status_s *status_local, const vehicle_command_
 						home.lat = lat;
 						home.lon = lon;
 						home.alt = alt;
-
-						if (PX4_ISFINITE(yaw)) {
-							home.yaw = yaw;
-						}
+						home.yaw = PX4_ISFINITE(yaw) ? yaw : NAN;
 
 						home.manual_home = true;
 						home.valid_alt = true;
